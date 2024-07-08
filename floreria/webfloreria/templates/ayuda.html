@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> 
+    <title>Ayuda</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body{
+        background-image: url("{% static 'pregunta.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        height: 100vh;
+      }
+      .container{
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          padding: 0;
+
+
+      }
+      h1,h2{
+        text-align: center;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin-top: 10px;
+      }
+      .carousel-inner{
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
+      }
+      .carousel-item img{
+          object-fit: fill;
+          height: 100vh;
+          width: auto;
+          position: relative;
+      }
+      .btn-primary {
+          margin-right: 10px; 
+      }
+      .bienvenida {
+            background-color: yellow;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .bienvenida span {
+            font-weight: bold;
+        }
+  </style>
+
+</head>
+<body>
+  <div class="container-fluid">
+      <nav class="navbar navbar-expand" style="background-color: rgb(0, 39, 146);">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}" style="color:aliceblue;">🌼</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'presentacion' %}" style="color:aliceblue;">Quienes somos!</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'contacto' %}" style="color:aliceblue;">Contactanos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'ayuda' %}" style="color:aliceblue;">Ayuda</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" style="color:aliceblue;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Catalogo
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/productos/casero">Caseros</a></li>
+                    <li><a class="dropdown-item" href="/productos/maceteros">Maceteros</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/productos/thojas">Tierra de hojas</a></li>
+                    <li><a class="dropdown-item" href="/productos/todos">Todo para el cuidado de tus plantas</a></li>
+                  </ul>
+              </ul>
+            </div>
+            <div class="d-flex">
+              <a href="{% url 'phone_login' %}" class="btn btn-primary">
+                  <i class="bi bi-box-arrow-in-right"></i> Login
+              </a>
+              <a href="{% url 'registro' %}" class="btn btn-primary">
+                  <i class="bi bi-person-plus"></i> Registrarse
+              </a>
+              <a href="{% url 'admin_login' %}" class="btn btn-primary" style="background-color: coral;">
+                  <i class="bi bi-shield-lock"></i> Admin
+              </a>
+          </div>
+          {% if user.is_authenticated %}
+                    <span class="navbar-text ms-auto bienvenida">{{ mensaje_bienvenida }}</span>
+                        <a href="{% url 'logout' %}" class="btn btn-primary ms-3">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+          {% endif %}
+      </div>
+      </nav>
+    <div class="container">
+        <h1>Esta es la seccion de ayuda!</h1>
+        <h2>Aqui encontraras todas las respuestas que necesites</h2>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Como Pagar
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-colapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordingExample">
+                    <div class="accordion-body">
+                        Aceptamos todo tipo de pagos (tarjetas de credito y debito, transferencias o en efectivo al recibir tu pedido)😎
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        Devoluciones
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-colapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordingExample">
+                    <div class="accordion-body">
+                        Puedes solicitar la devolucion de tu dinero si el producto llego en mal estado o si no cumple con las especificaciones que ofrecia (para este proceso solicitaremos comprobantes de pagos)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

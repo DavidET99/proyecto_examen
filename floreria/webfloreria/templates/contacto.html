@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> 
+    <title>Contacto</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body{
+        background-image: url("{% static 'ayudacliente.jpg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        height: 100vh; 
+      }
+      .container{
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          padding: 0;
+
+
+      }
+      .carousel-inner{
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
+      }
+      .carousel-item img{
+          object-fit: fill;
+          height: 100vh;
+          width: auto;
+          position: relative;
+      }
+      .btn-primary {
+          margin-right: 10px; 
+      }
+      .welcome-message {
+          background-color: #4CAF50;
+          color: white;
+          text-align: center;
+          padding: 10px;
+      }
+      h1,h2,h3{
+        text-align: center;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bold;
+        color:darkred;
+      }
+      p{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+      .bienvenida {
+            background-color: yellow;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .bienvenida span {
+            font-weight: bold;
+        }
+  </style>
+
+</head>
+<body>
+  <div class="container-fluid">
+      <nav class="navbar navbar-expand" style="background-color: rgb(0, 39, 146);">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}" style="color:aliceblue;">🌼</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'presentacion' %}" style="color:aliceblue;">Quienes somos!</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'contacto' %}" style="color:aliceblue;">Contactanos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'ayuda' %}" style="color:aliceblue;">Ayuda</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" style="color:aliceblue;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Catalogo
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/productos/casero">Caseros</a></li>
+                    <li><a class="dropdown-item" href="/productos/maceteros">Maceteros</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/productos/thojas">Tierra de hojas</a></li>
+                    <li><a class="dropdown-item" href="/productos/todos">Todo para el cuidado de tus plantas</a></li>
+                  </ul>
+              </ul>
+            </div>
+            <div class="d-flex">
+              <a href="{% url 'phone_login' %}" class="btn btn-primary">
+                  <i class="bi bi-box-arrow-in-right"></i> Login
+              </a>
+              <a href="{% url 'registro' %}" class="btn btn-primary">
+                  <i class="bi bi-person-plus"></i> Registrarse
+              </a>
+              <a href="{% url 'admin_login' %}" class="btn btn-primary" style="background-color: coral;">
+                  <i class="bi bi-shield-lock"></i> Admin
+              </a>
+          </div>
+          {% if user.is_authenticated %}
+                    <span class="navbar-text ms-auto bienvenida">{{ mensaje_bienvenida }}</span>
+                        <a href="{% url 'logout' %}" class="btn btn-primary ms-3">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+          {% endif %}
+      </div>
+      </nav>
+    <div class="container">
+        <h1>Necesitas contactarnos?</h1>
+        <h2>Aqui encontraras toda la informacion para hacerlo!😎</h2>
+        <p>Nuestro numero de contacto es: +56987345627</p>
+        <p>Si prefieres contacto por email, es el siguiente: mifloreria@tiendafalsa.cl</p>
+        <h3>Tambien puedes enviarnos un mensaje directamente por este medio</h3>
+        <form>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ejemplo: Pepito">
+            </div>
+        </form>
+        <form>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo</label>
+                <input type="email" class="form-control" id="email" placeholder="EJ: PepitoBellako@gmail.com">
+            </div>
+        </form>
+        <form>
+            <div class="mb-3">
+                <label for="mensaje" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="mensaje" rows="3" placeholder="Haznos saber tu duda!"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>

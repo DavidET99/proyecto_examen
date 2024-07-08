@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos Thoja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        h1{
+            text-align: center;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+            margin-top: 10px;
+        }
+        .center-images {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        .product {
+            text-align: center;
+            margin: 20px;
+            width: 200px;
+        }
+        .product img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .product p {
+            margin-top: 10px;
+        }
+        .input-group-sm .form-control,
+        .input-group-sm .btn {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .input-group-sm .form-control {
+            width: 50px;
+            text-align: center;
+        }
+        .btn-primary {
+            margin-right: 10px; 
+        }
+        #cart-button {
+            background-color: green;
+            color: white;
+        }
+        #cart-button:hover {
+            background-color: darkgreen;
+            color: white;
+        }
+        .bienvenida {
+            background-color: yellow;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .bienvenida span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand" style="background-color: rgb(0, 39, 146);">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'index' %}" style="color:aliceblue;">🌼</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'presentacion' %}" style="color:aliceblue;">Quienes somos!</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contacto' %}" style="color:aliceblue;">Contactanos</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ayuda' %}" style="color:aliceblue;">Ayuda</a>
+                      </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" style="color:aliceblue;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Catalogo
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/productos/casero">Caseros</a></li>
+                      <li><a class="dropdown-item" href="/productos/maceteros">Maceteros</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="/productos/thojas">Tierra de hojas</a></li>
+                      <li><a class="dropdown-item" href="/productos/todos">Todo para el cuidado de tus plantas</a></li>
+                    </ul>
+                </ul>
+                <form id="search-form" class="d-flex" role="search">
+                    <input id="search-input" class="form-control me-2" type="search" placeholder="Buscar productos" aria-label="Search">
+                  </form>
+                </div>
+                <div class="d-flex">
+                  <a href="{% url 'phone_login' %}" class="btn btn-primary">
+                      <i class="bi bi-box-arrow-in-right"></i> Login
+                  </a>
+                  <a href="{% url 'registro' %}" class="btn btn-primary">
+                      <i class="bi bi-person-plus"></i> Registrarse
+                  </a>
+                  <a href="{% url 'admin_login' %}" class="btn btn-primary" style="background-color: coral;">
+                      <i class="bi bi-shield-lock"></i> Admin
+                  </a>
+                  <button id="cart-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCarrito" style="color:aliceblue;">
+                    <i class="bi bi-cart fs-5"></i>
+                    <span id="cart-count" class="badge bd-danger">0</span>
+                  </button>
+                </div>
+              {% if user.is_authenticated %}
+                <span class="navbar-text ms-auto bienvenida">{{ mensaje_bienvenida }}</span>
+                    <a href="{% url 'logout' %}" class="btn btn-primary ms-3">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+              {% endif %}
+        </div>
+        </nav>
+    </div>
+    <div class="container">
+        <h1>Tierra de hojas</h1>
+        <div class="center-images">
+            {% for producto in productos %}
+            <div class="product">
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                <p>{{ producto.nombre }}</p>
+                <p>${{ producto.precio }}</p>
+                <div class="input-group input-group-sm">
+                    <button class="btn btn-primary" onclick="decreaseQuantity('{{ producto.nombre }}')">▼</button>
+                    <input id="quantity-{{ producto.nombre }}" type="number"  class="form-control form-control-sm" value="1" readonly>
+                    <button class="btn btn-primary" onclick="increaseQuantity('{{ producto.nombre }}')">▲</button>
+                </div>
+                <button class="btn btn-primary mt-2" onclick="addToCart('{{ producto.nombre }}', parseInt(document.getElementById('quantity-{{ producto.nombre }}').value))">Agregar al carrito</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="modal fade" id="modalCarrito" tabindex="-1" aria-labelledby="modalCarritoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCarritoLabel">Tu carrito!😎</h5>
+                    <button onclick="clearCart()" style="background-color: greenyellow;">Limpiar Carrito</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>    
+                </div>
+                <div class="modal-body" id="carrito-modal">
+                    <ul id="carrito-list" class="list-group"></ul>
+                    <div id="carrito-vacio" class="text-danger d-none">El carrito está vacío</div>
+                </div>
+                <div class="modal-footer text-center">
+                    <button class="btn btn-success" onclick="proceedToCheckout()">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        
+        function increaseQuantity(productName) {
+            changeQuantity(productName, 1);
+        }
+    
+        
+        function decreaseQuantity(productName) {
+            changeQuantity(productName, -1);
+        }
+    
+        
+        function changeQuantity(productName, change) {
+            let quantityInput = document.getElementById(`quantity-${productName}`);
+            let currentQuantity = parseInt(quantityInput.value) + change;
+    
+            if (currentQuantity < 1) {
+                currentQuantity = 1;  
+            }
+    
+            quantityInput.value = currentQuantity;
+    
+           
+            updateCartStorage(productName, currentQuantity);
+        }
+    
+        
+        function addToCart(productName, quantity) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    
+            if (cart[productName]) {
+                cart[productName] += quantity;
+            } else {
+                cart[productName] = quantity;
+            }
+    
+            localStorage.setItem('cart', JSON.stringify(cart));
+    
+            updateCartCount();
+            displayCart(); 
+    
+            alert("Producto(s) agregado(s) correctamente!");
+        }
+    
+        
+        function displayCart() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    
+            let cartList = document.getElementById("carrito-list");
+            cartList.innerHTML = '';
+    
+            if (Object.keys(cart).length === 0) {
+                document.getElementById('carrito-vacio').classList.remove('d-none');
+            } else {
+                document.getElementById('carrito-vacio').classList.add('d-none');
+    
+                for (let product in cart) {
+                    let newItem = document.createElement("li");
+                    newItem.textContent = `${product} (${cart[product]} x $${cart[product].precio})`;
+                    newItem.className = "list-group-item d-flex justify-content-between align-items-center";
+                    
+                    let quantityDiv = document.createElement("div");
+                    quantityDiv.className = "input-group input-group-sm";
+                    
+                    let decreaseBtn = document.createElement("button");
+                    decreaseBtn.className = "btn btn-primary";
+                    decreaseBtn.textContent = "▼";
+                    decreaseBtn.onclick = function() { decreaseQuantity(product); };
+    
+                    let quantityInput = document.createElement("input");
+                    quantityInput.id = `quantity-${product}`;
+                    quantityInput.type = "number";
+                    quantityInput.value = cart[product];
+                    quantityInput.className = "form-control form-control-sm text-center";
+                    quantityInput.readOnly = true;
+    
+                    let increaseBtn = document.createElement("button");
+                    increaseBtn.className = "btn btn-primary";
+                    increaseBtn.textContent = "▲";
+                    increaseBtn.onclick = function() { increaseQuantity(product); };
+    
+                    quantityDiv.appendChild(decreaseBtn);
+                    quantityDiv.appendChild(quantityInput);
+                    quantityDiv.appendChild(increaseBtn);
+    
+                    let deleteBtn = document.createElement("button");
+                    deleteBtn.className = "btn btn-danger";
+                    deleteBtn.textContent = "Eliminar";
+                    deleteBtn.onclick = function() { removeFromCart(product); };
+    
+                    newItem.appendChild(quantityDiv);
+                    newItem.appendChild(deleteBtn);
+    
+                    cartList.appendChild(newItem);
+                }
+            }
+        }
+    
+        
+        function removeFromCart(productName) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    
+            if (cart[productName]) {
+                delete cart[productName];
+                localStorage.setItem('cart', JSON.stringify(cart));
+    
+                updateCartCount();
+                displayCart();
+    
+                alert("Producto eliminado del carrito correctamente");
+            }
+        }
+    
+        
+        function clearCart() {
+            localStorage.removeItem('cart');
+    
+            updateCartCount();
+            displayCart();
+    
+            alert("Carrito limpiado correctamente");
+        }
+    
+        
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    
+            let totalCount = Object.values(cart).reduce((acc, val) => acc + val, 0);
+    
+            document.getElementById("cart-count").textContent = totalCount;
+        }
+    
+        
+        function updateCartStorage(productName, quantity) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    
+            if (cart[productName]) {
+                cart[productName] = quantity;
+                localStorage.setItem('cart', JSON.stringify(cart));
+    
+                updateCartCount();
+                displayCart();
+            }
+        }
+    
+        
+        function proceedToCheckout() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    
+            if (Object.keys(cart).length === 0) {
+                document.getElementById('carrito-vacio').classList.remove('d-none');
+            } else {
+                
+                let products = Object.keys(cart);
+                let quantities = Object.values(cart);
+    
+                
+                window.location.href = `{% url 'compra' %}?products=${products.join(',')}&quantities=${quantities.join(',')}`;
+            }
+        }
+    
+        window.onload = function() {
+            updateCartCount();
+            displayCart();
+        };
+    
+        
+        function filterProducts() {
+            
+            let searchText = document.getElementById('search-input').value.toLowerCase().trim();
+    
+            
+            let products = document.querySelectorAll('.product');
+    
+            
+            products.forEach(product => {
+                let productName = product.querySelector('p').textContent.toLowerCase();
+    
+                
+                if (productName.includes(searchText)) {
+                    product.style.display = 'block';  
+                } else {
+                    product.style.display = 'none';  
+                }
+            });
+        }
+    
+        
+        document.getElementById('search-input').addEventListener('keyup', filterProducts);
+    
+        
+        document.getElementById('search-button').addEventListener('click', filterProducts);
+    </script>
+</body>
+</html>

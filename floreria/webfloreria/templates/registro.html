@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px; 
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b; 
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .form-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group.full-width {
+            flex: 2;
+        }
+        .mb-3 {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 5px;
+        }
+        input[type=text], input[type=password], input[type=email], input[type=number], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button.btn-primary {
+            background-color: #00796b; 
+            border-color: #00796b; 
+            color: white;
+        }
+
+        button.btn-primary:hover {
+            background-color: #004d40; 
+            border-color: #004d40; 
+            transform: scale(1.05); 
+        }
+
+        button.btn-secondary {
+            background-color: #004d40; 
+            border-color: #004d40; 
+            color: white;
+            margin-bottom: 20px; 
+        }
+
+        button.btn-secondary:hover {
+            background-color: #00251a; 
+            border-color: #00251a; 
+            transform: scale(1.05); 
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+            border-radius: 4px;
+            padding: 8px;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-10px);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(10px);
+            }
+        }
+        @media (min-width: 768px) {
+            .form-group {
+                flex-direction: row;
+                align-items: center;
+            }
+            .form-group label {
+                width: 30%;
+                text-align: right;
+                margin-right: 10px;
+            }
+            .form-group .input-field {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button onclick="window.location.href='/'" class="btn btn-primary">↪ Regresar</button>
+        <h1>Sign Up</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="form-group">
+                <label for="id_username">Nombre de usuario:</label>
+                {{ form.username }}
+                <div class="error-message">{{ form.username.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_password">Contraseña:</label>
+                {{ form.password }}
+                <div class="error-message">{{ form.password.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_nombre">Nombre completo:</label>
+                {{ form.nombre }}
+                <div class="error-message">{{ form.nombre.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_edad">Edad:</label>
+                {{ form.edad }}
+                <div class="error-message">{{ form.edad.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_correo">Correo electrónico:</label>
+                {{ form.correo }}
+                <div class="error-message">{{ form.correo.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_telefono">Teléfono:</label>
+                {{ form.telefono }}
+                <div class="error-message">{{ form.telefono.errors }}</div>
+            </div>
+            <div class="form-group">
+                <label for="id_direccion">Dirección:</label>
+                <textarea id="id_direccion" name="direccion" rows="4"></textarea>
+                <div class="error-message">{{ form.direccion.errors }}</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </form>
+    </div>
+</body>
+</html>
